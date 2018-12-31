@@ -1,8 +1,3 @@
-/*
- * kapı açılmadan önce evin içi aydınlanması için 4 adet led eklendi.
- * ledev adlı pin'e 4 adet led bağlandı ve çıkışları verildi.
- */
-
 
 #include <SPI.h>
 #include <RFID.h>
@@ -16,7 +11,6 @@ int led2 = 3;
 int buzzerPin = 4;
 int DHT11_pin = 5;
 int ledev=7;
-//9.pinde servomotor vardır.
 
 dht11 DHT11_sensor;
 
@@ -35,14 +29,12 @@ void setup()
   rfid.init();
   lcd.begin();
   lcd.backlight();
-  SPI.begin();
-  rfid.init();
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(buzzerPin, OUTPUT);
   pinMode(ledev,OUTPUT);
   Serial.begin(9600);
-  servoNesnesi.write(55);
+  servoNesnesi.write(57);
 }
 
 void loop()
@@ -117,19 +109,6 @@ void loop()
       lcd.println((float)DHT11_sensor.humidity, 2);
       delay(800);
       lcd.setCursor(2, 0);
-      lcd.print("Isiklar acildi.");
-      lcd.setCursor(0 , 1);
-      lcd.print("(C):");
-      lcd.println((float)DHT11_sensor.temperature, 2);
-      lcd.setCursor(6 , 1);
-      lcd.print("   ");
-      lcd.setCursor(9 , 1);
-      lcd.print("Nem%:");
-      lcd.println((float)DHT11_sensor.humidity, 2);
-      digitalWrite(ledev,HIGH);
-      delay(800);
-      lcd.clear();
-      lcd.setCursor(2, 0);
       lcd.print("Kapi acildi.");
       lcd.setCursor(0 , 1);
       lcd.print("(C):");
@@ -139,7 +118,7 @@ void loop()
       lcd.setCursor(9 , 1);
       lcd.print("Nem%:");
       lcd.println((float)DHT11_sensor.humidity, 2);
-      servoNesnesi.write(-200);  /* Motorun mili 100. dereceye donuyor */
+      servoNesnesi.write(77);  /* Motorun mili 100. dereceye donuyor */
       digitalWrite(led1, LOW);
       digitalWrite(led2, HIGH);
       delay(5000);
@@ -192,7 +171,7 @@ void loop()
       lcd.print("Nem%:");
       lcd.println((float)DHT11_sensor.humidity, 2);
       digitalWrite(led1, HIGH);
-      servoNesnesi.write(55);
+      servoNesnesi.write(57);
       digitalWrite(ledev,LOW);
     }
     else
