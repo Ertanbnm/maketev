@@ -10,7 +10,7 @@ int led1 = 2;
 int led2 = 3;
 int buzzerPin = 4;
 int DHT11_pin = 5;
-int ledev=7;
+int ledev = 7;
 
 dht11 DHT11_sensor;
 
@@ -32,7 +32,7 @@ void setup()
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(buzzerPin, OUTPUT);
-  pinMode(ledev,OUTPUT);
+  pinMode(ledev, OUTPUT);
   Serial.begin(9600);
   servoNesnesi.write(57);
 }
@@ -172,7 +172,7 @@ void loop()
       lcd.println((float)DHT11_sensor.humidity, 2);
       digitalWrite(led1, HIGH);
       servoNesnesi.write(57);
-      digitalWrite(ledev,LOW);
+      digitalWrite(ledev, LOW);
     }
     else
     {
@@ -200,5 +200,5 @@ void loop()
     }
     rfid.halt();
   }
-  
+
 }
