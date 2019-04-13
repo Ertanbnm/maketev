@@ -3,84 +3,98 @@
 #include <Servo.h>
 LiquidCrystal_I2C_AvrI2C lcd (0x27, 16, 2);
 Servo myservomotor;
-SoftwareSerial myBluetooth(0, 1);
+SoftwareSerial akiiliev(0, 1);
+//////////////////////////////////////////////////
 char deger;
 int role = 2;
 int trig = 13;
 int echo = 12;
 int buzzer = 3;
+int ledkirmizi = 4;
+int ledyesil = 5;
 int  sure  = 0;
 int  mesafe = 0;
+///////////////////////////////////////////////////
 void setup() {
   Serial.begin(9600);
   myservomotor.attach(6);
-  myBluetooth.begin(9600);
+  akiiliev.begin(9600);
   myservomotor.write(54);
   digitalWrite(role, 1);
+  digitalWrite(ledkirmizi,1);
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
   pinMode(role, OUTPUT);
   pinMode(buzzer, OUTPUT);
+  pinMode(ledkirmizi, OUTPUT);
+  pinMode(ledyesil, OUTPUT);
   lcd.begin();
   lcd.setCursor(0, 0);
   lcd.print("Hosgeldiniz!");
   lcd.setCursor(0, 1);
   lcd.print("Akilli Ev (Beta)");
+  
 }
 
 void loop() {
 
   if (deger == '5') {
-    myBluetooth.println("Alarm Kuruldu!");
+    akiiliev.println("Alarm Kuruldu!");
     lcd.clear();
     lcd.setCursor(1, 0);
     lcd.print("Hosgeldiniz!");
     lcd.setCursor(1, 1);
     lcd.print("Alarm Kuruldu!");
     myservomotor.write(54);
+    digitalWrite(ledkirmizi,1);
+    digitalWrite(ledyesil,0);
     Serial.println(mesafe);
 
-    if ( mesafe <= 20)
+    if ( mesafe > 27)
       digitalWrite(3, 1);
     myservomotor.write(54);
     delay(1500);
 
   }
 
-  digitalWrite(trig , HIGH);
+  digitalWrite(trig , 1);
   delayMicroseconds(1000);
-  digitalWrite(trig, LOW);
+  digitalWrite(trig, 0);
 
-  sure = pulseIn(echo , HIGH);
+  sure = pulseIn(echo , 1);
   mesafe = (sure / 2) / 28.5;
 
 
-  if (myBluetooth.available())
+  if (akiiliev.available())
   {
-    deger = myBluetooth.read();
+    deger = akiiliev.read();
 
     if (deger == '1' ) {
-      myBluetooth.println("Kapi Acildi");
+      akiiliev.println("Kapi Acildi");
       lcd.clear();
       lcd.setCursor(1, 0);
       lcd.print("Hosgeldiniz!");
       lcd.setCursor(1, 1);
       lcd.print("Kapi Acildi!");
+      digitalWrite(ledkirmizi,0);
+      digitalWrite(ledyesil,1);
       myservomotor.write(73);
     }
 
     if (deger == '2') {
-      myBluetooth.println("Kapi Kapandi");
+      akiiliev.println("Kapi Kapandi");
       lcd.clear();
       lcd.setCursor(1, 0);
       lcd.print("Hosgeldiniz!");
       lcd.setCursor(1, 1);
       lcd.print("Kapi Kapandi!");
+      digitalWrite(ledkirmizi,1);
+      digitalWrite(ledyesil,0);
       myservomotor.write(54);
     }
 
     if (deger == '6') {
-      myBluetooth.println("Alarm Kapandi!");
+      akiiliev.println("Alarm Kapandi!");
       lcd.clear();
       lcd.setCursor(1, 0);
       lcd.print("Hosgeldiniz!");
@@ -90,7 +104,7 @@ void loop() {
     }
 
     if (deger == '7') {
-      myBluetooth.println("Havalandırma Acildi!");
+      akiiliev.println("Havalandırma Acildi!");
       lcd.clear();
       lcd.setCursor(1, 0);
       lcd.print("Hosgeldiniz!");
@@ -100,7 +114,7 @@ void loop() {
     }
 
     if (deger == '8') {
-      myBluetooth.println("Hvlndrma Kapandi");
+      akiiliev.println("Hvlndrma Kapandi");
       lcd.clear();
       lcd.setCursor(1, 0);
       lcd.print("Hosgeldiniz!");
